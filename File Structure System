@@ -1,0 +1,33 @@
+betasoft/
+├── .github/
+│   └── workflows/
+│       └── build-apk.yml
+├── app/
+│   ├── build.gradle
+│   ├── proguard-rules.pro
+│   └── src/
+│       └── main/
+│           ├── AndroidManifest.xml
+│           ├── java/
+│           │   └── com/
+│           │       └── netbeta/
+│           │           └── browser/
+│           │               └── MainActivity.java
+│           └── res/
+│               ├── drawable/
+│               │   └── icon_app.xml
+│               ├── mipmap/
+│               │   └── icon_app.xml
+│               ├── mipmap-anydpi-v26/
+│               │   └── icon_app.xml
+│               ├── values/
+│               │   ├── colors.xml
+│               │   ├── strings.xml
+│               │   └── styles.xml
+│               └── values-v21/
+│                   └── styles.xml
+├── build.gradle
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle

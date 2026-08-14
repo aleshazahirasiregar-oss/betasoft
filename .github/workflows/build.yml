@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Source Code
         uses: actions/checkout@v5
 
       - name: Set up JDK 17
@@ -18,17 +18,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+      - name: Setup Gradle 8.5
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.5'
 
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
+      - name: Build Debug APK
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v5
-        if: always()
+        if: success()
         with:
-          name: Net-Browser
+          name: NetBrowser-APK
           path: app/build/outputs/apk/debug/app-debug.apk

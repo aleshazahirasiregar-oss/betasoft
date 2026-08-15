@@ -1,12 +1,11 @@
 package com.netbeta.browser;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Process;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,23 +21,25 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1. Cek apakah com.netbeta.service ada di HP
+        // 1. CEK SERVICE - JIKA TIDAK ADA -> LANGSUNG FORCE CLOSE SEKETIKA!
         if (!isServiceInstalled(SERVICE_PACKAGE)) {
-            showServiceRequiredDialog();
+            Toast.makeText(this, "Error: com.netbeta.service required! Closing...", Toast.LENGTH_SHORT).show();
+            forceCloseApp();
             return;
         }
 
-        // 2. Start Service
+        // 2. JALANKAN / BIND SERVICE
         try {
             Intent serviceIntent = new Intent();
             serviceIntent.setComponent(new ComponentName(SERVICE_PACKAGE, SERVICE_CLASS));
             startService(serviceIntent);
-            Toast.makeText(this, "Net S2 Operator: Online & Active", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Gagal start service", Toast.LENGTH_SHORT).show();
+            // Jika ada kendala memanggil service -> Langsung Force Close juga!
+            forceCloseApp();
+            return;
         }
 
-        // 3. Setup WebView
+        // 3. JIKA SERVICE ADA & SUKSES -> JALANKAN BROWSER NORMAL
         myWebView = new WebView(this);
         setContentView(myWebView);
 
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
 
-        // Halaman Bersih (Tanpa Kotak Info ID / SDK / Engine)
+        // Halaman Portal Net Browser 3.5
         String html = "<!DOCTYPE html><html><head><meta charset='utf-8'>"
             + "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
             + "<style>"
@@ -83,9 +84,10 @@ public class MainActivity extends Activity {
             + "</script>"
             + "</body></html>";
 
-        myWebView.loadDataWithBaseURL("https://www.netbeta.com", html, "text/html", "UTF-8", null);
+        myWebView.loadDataWithBaseURL("https://netbeta.local", html, "text/html", "UTF-8", null);
     }
 
+    // Fungsi Cek Package Service
     private boolean isServiceInstalled(String packageName) {
         PackageManager pm = getPackageManager();
         try {
@@ -101,18 +103,11 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void showServiceRequiredDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Service Diperlukan");
-        builder.setMessage("Aplikasi ini membutuhkan 'com.netbeta.service' agar dapat berjalan.");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Keluar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.show();
+    // Fungsi Force Close Keras (Membunuh proses aplikasi seketika)
+    private void forceCloseApp() {
+        finishAffinity();
+        Process.killProcess(Process.myPid());
+        System.exit(0);
     }
 
     @Override

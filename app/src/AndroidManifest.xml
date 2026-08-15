@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.netbeta.browser">
-
-    <!-- Izin Internet dan Cek Jaringan -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- WAJIB: Supaya browser diizinkan mendeteksi & memanggil com.netbeta.service -->
-    <queries>
-        <package android:name="com.netbeta.service" />
-    </queries>
+    package="com.netbeta.service">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon_app"
-        android:label="Net Browser 3.5"
-        android:roundIcon="@mipmap/icon_app"
-        android:supportsRtl="true"
+        android:label="Net S2 Operator"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".MainActivity"
+        <!-- Service yang bisa dipanggil dari luar (exported="true") -->
+        <service 
+            android:name=".Service"
             android:exported="true"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:process=":net_service">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="com.netbeta.ACTION_START_SERVICE" />
             </intent-filter>
-        </activity>
+        </service>
 
     </application>
 

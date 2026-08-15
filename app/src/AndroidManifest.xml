@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.netbeta.service">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon_app"
-        android:label="Net S2 Operator"
-        android:theme="@style/AppTheme">
+        android:label="Net S2 Service"
+        android:roundIcon="@mipmap/icon_app"
+        android:supportsRtl="true">
 
-        <!-- Service yang bisa dipanggil dari luar (exported="true") -->
-        <service 
+        <!-- HANYA SERVICE SAJA -->
+        <service
             android:name=".Service"
             android:exported="true"
-            android:process=":net_service">
-            <intent-filter>
-                <action android:name="com.netbeta.ACTION_START_SERVICE" />
-            </intent-filter>
-        </service>
+            android:enabled="true" />
 
     </application>
 

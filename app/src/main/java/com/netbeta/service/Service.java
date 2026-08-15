@@ -10,12 +10,11 @@ public class Service extends android.app.Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, "Net S2 Operator (com.netbeta.service) Aktif!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Layanan berjalan terus di latar belakang
+        Toast.makeText(this, "Net S2 Operator: Online & Active", Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
 
@@ -27,6 +26,5 @@ public class Service extends android.app.Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Net S2 Operator Berhenti", Toast.LENGTH_SHORT).show();
     }
 }

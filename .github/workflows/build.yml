@@ -31,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v5
         if: success()
         with:
-          name: NetBrowser-APK
+          name: NetOperator-APK
           path: app/build/outputs/apk/debug/app-debug.apk
